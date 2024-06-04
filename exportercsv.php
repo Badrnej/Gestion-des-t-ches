@@ -1,18 +1,18 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
 
-$fichier = 'taches.txt';
+$fichier = 'tasks.txt';
 $taches = file_get_contents($fichier);
 
-$taches_array = explode("\n", $taches); 
+$taches_array = explode("\n", $tasks); 
 $csv_data = '';
-foreach ($taches_array as $tache) {
+foreach ($taches_array as $tasks) {
    
-    $csv_data .= $tache . "\n"; 
+    $csv_data .= $tasks . "\n"; 
 }
 
 header('Content-Type: text/csv');
-header('Content-Disposition: attachment; filename="taches.csv"');
+header('Content-Disposition: attachment; filename="tasks.csv"');
 
 echo $csv_data;
 ?>

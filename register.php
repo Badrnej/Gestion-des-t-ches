@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
        
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-$stmt = $conn->prepare("INSERT INTO utilisateur (utilisateurNom, utilisateurPrenom, email, password) VALUES (?, ?, ?, ?)");
+$stmt = $conn->prepare("INSERT INTO users (nom, prenom, email, password) VALUES (?, ?, ?, ?)");
 $stmt->bind_param("ssss", $nom, $prenom, $email, $password);
 // Exécutez la requête d'insertion ici
 

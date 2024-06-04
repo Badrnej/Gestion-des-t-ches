@@ -41,9 +41,9 @@ session_start();
             >Plans</a
           >
           <a
-            href="#"
+            href="http://localhost/TaskMaster/dashboard.php"
             class="hover:text-purple-800"
-            >Pricing</a
+            >Dashboard</a
           >
           <a
             href="#"
@@ -118,16 +118,14 @@ session_start();
           <h1
             class="max-w-md text-4xl font-bold text-center md:text-5xl md:text-left"
           >
-            Bring everyone together to build better products
+          Télécharger le fichier CSV
           </h1>
           <p class="max-w-sm text-center text-gray-600 md:text-left">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam
-            expedita sapiente molestiae consequatur, voluptas commodi dolorum
-            laborum dolor deserunt sunt?
+          Cliquez sur ce bouton pour télécharger le fichier CSV contenant les données du tableau des tâches. Ce fichier permet une gestion efficace et une analyse rapide des tâches. Assurez-vous d'avoir un lecteur CSV installé pour ouvrir le fichier correctement.
           </p>
           <div class="flex justify-center md:justify-start">
             <a
-              href="http://localhost:3000/export-csv"
+              href="http://localhost:8080/export-csv"
               class="px-5 py-2 pt-1 text-white rounded-full bg-purple-500 hover:bg-purple-600"
             >
               exporter csv
@@ -305,11 +303,6 @@ session_start();
         </div>
         <!-- Button -->
         <div class="my-16">
-          <a
-            href="#"
-            class="px-5 py-2 pt-1 text-white rounded-full bg-purple-500 hover:bg-purple-600"
-            >Get Started</a
-          >
         </div>
       </div>
     </section>
@@ -318,23 +311,6 @@ session_start();
       id="cta"
       class="bg-purple-500"
     >
-      <div
-        class="container flex flex-col items-center justify-between px-6 py-24 mx-auto space-y-12 md:py-12 md:flex-row md:space-y-0"
-      >
-        <!-- Heading -->
-        <h2
-          class="text-5xl font-bold leading-tight text-center text-white md:text-4xl md:max-w-xl md:text-left"
-        >
-          Simplify how your team works
-        </h2>
-        <!-- Button -->
-        <div class="my-16">
-          <a
-            href="#"
-            class="px-5 py-2 pt-1 text-purple-500 rounded-full bg-white shadow-2xl hover:bg-purple-500 hover:text-white hover:border-white hover:border-2"
-            >Get Started</a
-          >
-        </div>
       </div>
     </section>
     <!-- Footer -->

@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_task'])) {
     $task_category = $conn->real_escape_string($task_category);
     $task_priority = $conn->real_escape_string($task_priority);
 
-    $sql = "UPDATE tasks SET title='$task_title', description='$task_description', catégorie='$task_category', priority='$task_priority', updated_at=NOW() WHERE id='$task_id'";
+    $sql = "UPDATE tasks SET title='$task_title', description='$task_description', catégorie_id='$task_category', priority='$task_priority', updated_at=NOW() WHERE id='$task_id'";
 
     if ($conn->query($sql) === TRUE) {
         echo "Tâche mise à jour avec succès";
@@ -122,7 +122,7 @@ $conn->close();
   <div class="flex flex-row pt-24 px-10 pb-4">
     <div class="w-2/12 mr-6">
       <div class="bg-white rounded-xl shadow-lg mb-6 px-6 py-4">
-        <a href="http://localhost/TaskTender/index.php" class="inline-block text-gray-600 hover:text-black my-4 w-full">
+        <a href="http://localhost/Taskmaster/index.php" class="inline-block text-gray-600 hover:text-black my-4 w-full">
           <span class="material-icons-outlined float-left pr-2">dashboard</span>
           Home
           <span class="material-icons-outlined float-right">keyboard_arrow_right</span>
@@ -132,7 +132,7 @@ $conn->close();
           Some menu item
           <span class="material-icons-outlined float-right">keyboard_arrow_right</span>
         </a>
-        <a href="http://localhost/TaskTender/kanbanproject.php" class="inline-block text-gray-600 hover:text-black my-4 w-full">
+        <a href="http://localhost/Taskmaster/kanbanproject.php" class="inline-block text-gray-600 hover:text-black my-4 w-full">
           <span class="material-icons-outlined float-left pr-2">file_copy</span>
           Tâches
           <span class="material-icons-outlined float-right">keyboard_arrow_right</span>
@@ -289,10 +289,10 @@ $conn->close();
                             <td class="py-2 px-4 border-b border-gray-200"><?= $row['deadline'] ?></td>
                             <td class="py-2 px-4 border-b border-gray-200"><?= $row['priority'] ?></td>
                             <td class="py-2 px-4 border-b border-gray-200">
-                                <form method="POST" action="" class="inline-block">
-                                    <input type="hidden" name="task_id" value="<?= $row['id'] ?>">
-                                    <button type="submit" name="edit_task" class="text-blue-600 hover:text-blue-900">Modifier</button>
-                                </form>
+                            <form method="POST" action="edit_task.php" class="inline-block">
+                                <input type="hidden" name="task_id" value="<?= $row['id'] ?>">
+                                <button type="submit" name="edit_task" class="text-blue-600 hover:text-blue-900">Modifier</button>
+                            </form>
                                 <form method="GET" action="" class="inline-block">
                                     <input type="hidden" name="delete_task" value="<?= $row['id'] ?>">
                                     <button type="submit" class="text-red-600 hover:text-red-900">Supprimer</button>
