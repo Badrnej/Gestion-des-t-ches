@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "gh-pages": "^5.0.0",
-    "tailwindcss": "^3.4.3"
+    "tailwindcss": "^3.4.4"
   },
   "main": "tailwind.config.js",
   "dependencies": {
@@ -19,6 +19,7 @@
     "array-union": "^1.0.2",
     "array-uniq": "^1.0.3",
     "async": "^3.2.4",
+    "autoprefixer": "^10.4.19",
     "balanced-match": "^1.0.2",
     "binary-extensions": "^2.2.0",
     "brace-expansion": "^1.1.11",
@@ -86,7 +87,7 @@
     "pinkie-promise": "^2.0.1",
     "pirates": "^4.0.5",
     "pkg-dir": "^4.2.0",
-    "postcss": "^8.4.23",
+    "postcss": "^8.4.38",
     "postcss-import": "^15.1.0",
     "postcss-js": "^4.0.1",
     "postcss-load-config": "^4.0.1",

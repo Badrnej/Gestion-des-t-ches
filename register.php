@@ -7,20 +7,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirm_password = htmlspecialchars($_POST['confirm_password']);
 
     if ($password === $confirm_password) {
-       
         include "config.php";
-
-        
-
-       
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-$stmt = $conn->prepare("INSERT INTO users (nom, prenom, email, password) VALUES (?, ?, ?, ?)");
-$stmt->bind_param("ssss", $nom, $prenom, $email, $password);
-// Exécutez la requête d'insertion ici
-
+        $stmt = $conn->prepare("INSERT INTO users (nom, prenom, email, password) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $nom, $prenom, $email, $password);
 
         if ($stmt->execute()) {
-            echo "<script>alert('Registration successful!'); window.location.href='login.php';</script>";
+            echo "<script>alert('Registration successful!'); window.location.href='http://localhost/TaskMaster/';</script>";
         } else {
             echo "<script>alert('Error: " . $stmt->error . "');</script>";
         }
@@ -32,7 +25,6 @@ $stmt->bind_param("ssss", $nom, $prenom, $email, $password);
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,6 +61,5 @@ $stmt->bind_param("ssss", $nom, $prenom, $email, $password);
       </div>
     </form>
   </div>
-  
 </body>
 </html>

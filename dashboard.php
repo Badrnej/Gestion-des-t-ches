@@ -1,4 +1,13 @@
 <?php
+session_start();
+$isLoggedIn = isset($_SESSION['user_id']); // Vérifie si l'utilisateur est connecté
+
+// Redirection si non connecté
+if (!$isLoggedIn) {
+    header("Location: http://localhost/Taskmaster/index.php");
+    exit; // Assurez-vous de terminer le script après la redirection
+}
+
 // Configuration de la base de données
 $servername = "localhost";
 $username = "root";
@@ -15,61 +24,17 @@ if ($conn->connect_error) {
 
 // Ajouter une tâche
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_task'])) {
-    $task_title = $_POST['task_title'];
-    $task_description = $_POST['task_description'];
-    $task_category = $_POST['task_category'];
-    $task_deadline = $_POST['task_deadline'];
-    $task_priority = $_POST['task_priority']; // Nouvelle variable pour la priorité
-
-    $task_completed = 0; // Valeur par défaut pour completed
-    $created_at = date('Y-m-d H:i:s'); // Timestamp actuel
-    $updated_at = date('Y-m-d H:i:s'); // Timestamp actuel
-
-    $sql = "INSERT INTO tasks (catégorie, title, description, deadline, priority, completed, created_at, updated_at) 
-            VALUES ('$task_category', '$task_title', '$task_description', '$task_deadline', '$task_priority', '$task_completed', '$created_at', '$updated_at')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Nouvelle tâche ajoutée avec succès";
-    } else {
-        echo "Erreur: " . $sql . "<br>" . $conn->error;
-    }
+    // Code d'ajout de tâche
 }
 
 // Modifier une tâche
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_task'])) {
-    $task_id = $_POST['task_id'];
-    $task_title = isset($_POST['task_title']) ? $_POST['task_title'] : '';
-    $task_description = isset($_POST['task_description']) ? $_POST['task_description'] : '';
-    $task_category = isset($_POST['task_category']) ? $_POST['task_category'] : '';
-    $task_priority = isset($_POST['task_priority']) ? $_POST['task_priority'] : '';
-
-    // Protection contre les injections SQL
-    $task_id = $conn->real_escape_string($task_id);
-    $task_title = $conn->real_escape_string($task_title);
-    $task_description = $conn->real_escape_string($task_description);
-    $task_category = $conn->real_escape_string($task_category);
-    $task_priority = $conn->real_escape_string($task_priority);
-
-    $sql = "UPDATE tasks SET title='$task_title', description='$task_description', catégorie_id='$task_category', priority='$task_priority', updated_at=NOW() WHERE id='$task_id'";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Tâche mise à jour avec succès";
-    } else {
-        echo "Erreur: " . $sql . "<br>" . $conn->error;
-    }
+    // Code de modification de tâche
 }
-
 
 // Supprimer une tâche
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['delete_task'])) {
-    $task_id = $_GET['delete_task'];
-
-    $sql = "DELETE FROM tasks WHERE id='$task_id'";
-    if ($conn->query($sql) === TRUE) {
-        echo "Tâche supprimée avec succès";
-    } else {
-        echo "Erreur: " . $sql . "<br>" . $conn->error;
-    }
+    // Code de suppression de tâche
 }
 
 // Récupérer les données
@@ -99,6 +64,7 @@ $result_all_tasks = $conn->query($sql_all_tasks);
 $conn->close();
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -107,21 +73,28 @@ $conn->close();
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.8.12/tailwind-experimental.min.css'>
     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet" />
     <link rel="stylesheet" href="./css/main.css">
+    <link href="./output.css" rel="stylesheet">
 </head>
+<?php
+session_start();
+$isLoggedIn = isset($_SESSION['user_id']); // Vérifie si l'utilisateur est connecté
+?>
+
 <body class="bg-purple-600 min-h-screen">
   <div class="fixed bg-white text-blue-800 px-10 py-1 z-10 w-full">
-      <div class="flex items-center justify-between py-2 text-5x1">
+    <div class="flex items-center justify-between py-2 text-5x1">
         <div class="font-bold text-orange-500 text-xl">Task<span class="text-purple-600">Master</span></div>
-        <div class="flex items-center text-gray-500">
-          <span class="material-icons-outlined p-2" style="font-size: 30px">search</span>
-          <span class="material-icons-outlined p-2" style="font-size: 30px">notifications</span>
-          <div class="bg-center bg-cover bg-no-repeat rounded-full inline-block h-12 w-12 ml-2" style="background-image: url(https://i.pinimg.com/564x/de/0f/3d/de0f3d06d2c6dbf29a888cf78e4c0323.jpg)"></div>
-        </div>
+            <?php if ($isLoggedIn): ?>
+                <a href="logout.php" class="ml-4 px-5 py-2 pt-1 text-white rounded-full bg-purple-500 hover:bg-purple-600">Logout</a>
+            <?php else: ?>
+                <a href="login.php" class="ml-4 px-5 py-2 pt-1 text-white rounded-full bg-blue-500 hover:bg-blue-600">Login</a>
+            <?php endif; ?>
     </div>
-  </div>
+</div>
+
   <div class="flex flex-row pt-24 px-10 pb-4">
     <div class="w-2/12 mr-6">
-      <div class="bg-white rounded-xl shadow-lg mb-6 px-6 py-4">
+      <div class="bg-white rounded-lg shadow-lg mb-6 px-6 py-4">
         <a href="http://localhost/Taskmaster/index.php" class="inline-block text-gray-600 hover:text-black my-4 w-full">
           <span class="material-icons-outlined float-left pr-2">dashboard</span>
           Home
@@ -129,7 +102,7 @@ $conn->close();
         </a>
         <a href="#" class="inline-block text-gray-600 hover:text-black my-4 w-full">
           <span class="material-icons-outlined float-left pr-2">tune</span>
-          Some menu item
+          gerer les utilisateurs
           <span class="material-icons-outlined float-right">keyboard_arrow_right</span>
         </a>
         <a href="http://localhost/Taskmaster/kanbanproject.php" class="inline-block text-gray-600 hover:text-black my-4 w-full">
@@ -139,18 +112,14 @@ $conn->close();
         </a>
       </div>
 
-      <div class="bg-white rounded-xl shadow-lg mb-6 px-6 py-4">
-        <a href="" class="inline-block text-gray-600 hover:text-black my-4 w-full">
+      <div class="bg-white rounded-lg shadow-lg mb-6 px-6 py-4">
+        <a href="profile.php" class="inline-block text-gray-600 hover:text-black my-4 w-full">
           <span class="material-icons-outlined float-left pr-2">face</span>
           Profile
           <span class="material-icons-outlined float-right">keyboard_arrow_right</span>
         </a>
-        <a href="" class="inline-block text-gray-600 hover:text-black my-4 w-full">
-          <span class="material-icons-outlined float-left pr-2">settings</span>
-          Settings
-          <span class="material-icons-outlined float-right">keyboard_arrow_right</span>
-        </a>
-        <a href="" class="inline-block text-gray-600 hover:text-black my-4 w-full">
+        
+        <a href="logout.php" class="inline-block text-gray-600 hover:text-black my-4 w-full">
           <span class="material-icons-outlined float-left pr-2">power_settings_new</span>
           Log out
           <span class="material-icons-outlined float-right">keyboard_arrow_right</span>
@@ -159,14 +128,15 @@ $conn->close();
     </div>
 
     <div class="flex-grow text-gray-800">
-        <header class="flex items-center h-20 px-6 sm:px-10 bg-white">
+        <header class="flex items-center h-20 px-6 sm:px-10 bg-white rounded-lg">
+        <h3 class="text-2xl font-bold text-balance text-orange-500 mb-4">Dashboard</h3>
             <!-- Header content -->
         </header>
         <main class="p-6 sm:p-10 space-y-6">
             <section class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                 <div class="bg-white p-6 rounded-lg shadow-lg">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold">Tâches</h3>
+                        <h3 class="ttext-lg font-bold text-orange-500 mb-4">Tâches</h3>
                         <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
@@ -177,7 +147,7 @@ $conn->close();
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-lg">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold">Catégories</h3>
+                        <h3 class="text-lg font-bold text-orange-500 mb-4">Catégories</h3>
                         <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
@@ -188,7 +158,7 @@ $conn->close();
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-lg">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold">Utilisateurs</h3>
+                        <h3 class="text-lg font-bold text-orange-500 mb-4">Utilisateurs</h3>
                         <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
@@ -199,7 +169,7 @@ $conn->close();
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-lg">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold">Rôles</h3>
+                        <h3 class="text-lg font-bold text-orange-500 mb-4">Rôles</h3>
                         <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
@@ -293,10 +263,10 @@ $conn->close();
                                 <input type="hidden" name="task_id" value="<?= $row['id'] ?>">
                                 <button type="submit" name="edit_task" class="text-blue-600 hover:text-blue-900">Modifier</button>
                             </form>
-                                <form method="GET" action="" class="inline-block">
-                                    <input type="hidden" name="delete_task" value="<?= $row['id'] ?>">
-                                    <button type="submit" class="text-red-600 hover:text-red-900">Supprimer</button>
-                                </form>
+                            <form method="GET" action="delete_task.php" class="inline-block">
+                                <input type="hidden" name="task_id" value="<?= $row['id'] ?>">
+                                <button type="submit" name="delete_task" class="text-red-600 hover:text-red-900">Delete</button>
+                            </form>
                             </td>
                         </tr>
                         <?php } ?>
