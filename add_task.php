@@ -1,25 +1,25 @@
 <?php
-require 'config.php';
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "taskmaster";
 
-$title = $_POST['title'];
-$description = $_POST['description'];
-$catégorie = $_POST['catégorie'];
-$deadline = $_POST['deadline'];
-$priority = $_POST['priority'];
-$list = $_POST['list'];
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$sql = "INSERT INTO tasks (title, description, catégorie, deadline, priority, list) VALUES (:title, :description, :catégorie, :deadline, :priority, :list)";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':title', $title);
-$stmt->bindParam(':description', $description);
-$stmt->bindParam(':catégorie', $catégorie);
-$stmt->bindParam(':deadline', $deadline);
-$stmt->bindParam(':priority', $priority);
-$stmt->bindParam(':list', $list);
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $catégorie = $_POST['catégorie'];
+    $deadline = $_POST['deadline'];
+    $priority = $_POST['priority'];
+    $list = $_POST['list'];
 
-if ($stmt->execute()) {
-    header('Location: kanban.php');
-} else {
-    echo "Erreur: " . $stmt->errorInfo()[2];
+    $stmt = $conn->prepare("INSERT INTO tasks (title, description, catégorie, deadline, priority, list) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$title, $description, $catégorie, $deadline, $priority, $list]);
+
+    header("Location: index.php");
+} catch(PDOException $e) {
+    echo "Erreur: " . $e->getMessage();
 }
 ?>

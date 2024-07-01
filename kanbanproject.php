@@ -143,7 +143,11 @@ try {
                 </div>
                 <div class="mb-4">
                     <label for="catégorie" class="block font-semibold">Catégorie</label>
-                    <input type="text" name="catégorie" id="catégorie" class="w-full border p-2 rounded" required>
+                    <select name="catégorie" id="catégorie" class="w-full border p-2 rounded" required>
+                        <option value="Important">informatique</option>
+                        <option value="Normal">infography</option>
+                        <option value="Pas important">reseau</option>
+                    </select>
                 </div>
                 <div class="mb-4">
                     <label for="deadline" class="block font-semibold">Deadline</label>
@@ -151,7 +155,11 @@ try {
                 </div>
                 <div class="mb-4">
                     <label for="priority" class="block font-semibold">Priority</label>
-                    <input type="text" name="priority" id="priority" class="w-full border p-2 rounded" required>
+                    <select name="priority" id="priority" class="w-full border p-2 rounded" required>
+                        <option value="Important">Important</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Pas important">Pas important</option>
+                    </select>
                 </div>
                 <div class="mb-4">
                     <label for="list" class="block font-semibold">Liste</label>
